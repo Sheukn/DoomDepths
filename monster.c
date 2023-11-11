@@ -14,6 +14,7 @@ Monster *new_monster(int level, int type) {
         monster->max_atk_pow = 3 + level - 1;
         monster->defense = 3 + (level - 1) * 2;
         monster->alive = 1;
+        monster->xp = 30;
         monster->sprite = new_sprite("SLIME");
         break;
     }
@@ -25,6 +26,7 @@ Monster *new_monster(int level, int type) {
         monster->max_atk_pow = 3 + (level - 1) * 2 ;
         monster->defense = 1 + (level - 1);
         monster->alive = 1;
+        monster->xp = 40;
         monster->sprite = new_sprite("RAT");
         break;
     }
@@ -36,6 +38,7 @@ Monster *new_monster(int level, int type) {
         monster->max_atk_pow = 4 + (level - 1) * 3;
         monster->defense = 2 + level - 1;
         monster->alive = 1;
+        monster->xp = 50;
         monster->sprite = new_sprite("GOBLIN");
         break;
     }

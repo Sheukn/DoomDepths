@@ -9,6 +9,7 @@ typedef struct {
     int max_atk_pow;
     int defense;
     int alive;
+    int xp;
     Sprite *sprite;
 } Monster;
 

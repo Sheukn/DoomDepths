@@ -2,6 +2,7 @@
 #include "game.h"
 #include "hero.h"
 #include "monster.h"
+#include "spell.h"
 
 int hero_attack(Hero* hero, Monster* monster){
     int damage = hero->attack - monster->defense;
@@ -11,12 +12,26 @@ int hero_attack(Hero* hero, Monster* monster){
     monster->health_points -= damage;
     if (monster->health_points <= 0){
         monster->alive = 0;
+        hero->xp += monster->xp;
     }
     return damage;
 }
 
-int monster_attack(Monster* monster, Hero* hero){
+int hero_spell(Hero* hero, Spell* spell, Monster *monster){
+    hero->mana_points -= spell->mana_cost;
+    monster->health_points -= spell->atk_pow;
+    if (monster->health_points <= 0){
+        monster->alive = 0;
+        hero->xp += monster->xp;
+    }
+    return spell->atk_pow;
+}
+
+int monster_attack(Monster* monster, Hero* hero, int defending){
     int damage = (monster->max_atk_pow + monster->min_atk_pow) / 2 - hero->defense;
+    if (defending == 1){
+        damage /= 2;
+    }
     if(damage < 0){
         damage = 0;
     }
@@ -27,11 +42,20 @@ int monster_attack(Monster* monster, Hero* hero){
     return damage;
 }
 
-int concentrate(Hero* hero){
-    int mana_regen = hero->max_mana_points * 0.2;
+int concentrate(Hero* hero, float ratio){
+    int mana_regen = hero->max_mana_points * ratio;
     if((hero->mana_points + mana_regen)> hero->max_mana_points){
         mana_regen = hero->max_mana_points - hero->mana_points;
     }
     hero->mana_points += mana_regen;
     return mana_regen;
+}
+
+int health_rest(Hero* hero){
+    int health_regen = hero->max_health_points * 0.3;
+    if((hero->health_points + health_regen)> hero->max_health_points){
+        health_regen = hero->max_health_points - hero->health_points;
+    }
+    hero->health_points += health_regen;
+    return health_regen;
 }

@@ -8,10 +8,14 @@ typedef struct {
     int min_atk_pow;
     int max_atk_pow;
     int defense;
+    int alive;
     Sprite *sprite;
 } Monster;
 
-Monster *new_monster(int hp, int power_min, int power_max, int def, char* sprite_id);
+Monster *new_monster(int level, int type);
+Monster **new_monster_list(int nbr_monster, int level);
+int check_monster_list(Monster **monster_list, int nbr_monster);
+Monster **rearrange_monster_list(Monster **monster_list, int nbr_monster_to_keep);
 
 void free_monster(Monster *monster);
 

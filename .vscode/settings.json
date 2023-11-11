@@ -1,0 +1,8 @@
+{
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "hero.h": "c",
+        "game.h": "c",
+        "monster.h": "c"
+    },
+}

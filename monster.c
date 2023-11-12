@@ -99,6 +99,7 @@ Monster **rearrange_monster_list(Monster **monster_list, int nbr_monster_to_keep
         }
         k++;
     }
+    free_monster_list(monster_list);
     return new_monster_list;
 }
 
@@ -107,5 +108,5 @@ void free_monster(Monster *monster) {
     free(monster);
 }
 void free_monster_list(Monster **monster_list){
-
+    free(monster_list);
 }

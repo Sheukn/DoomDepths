@@ -20,5 +20,6 @@ int check_monster_list(Monster **monster_list, int nbr_monster);
 Monster **rearrange_monster_list(Monster **monster_list, int nbr_monster_to_keep);
 
 void free_monster(Monster *monster);
+void free_monster_list(Monster **monster);
 
 #endif

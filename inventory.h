@@ -41,6 +41,8 @@
     void selectWeapon(Inventory *inventory);
     void selectArmor(Inventory *inventory);
     void drop(Inventory *inventory);
+    void addArmor(ArmorList **armorList, Armor *armor, int equip);
+    void addWeapon(WeaponList **weaponList, Weapon *weapon, int equip);
 
 
 #endif 

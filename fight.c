@@ -3,9 +3,10 @@
 #include "hero.h"
 #include "monster.h"
 #include "spell.h"
+#include "inventory.h"
 
-int hero_attack(Hero* hero, Monster* monster){
-    int damage = hero->attack - monster->defense;
+int hero_attack(Hero* hero, Monster* monster, Weapon* weapon){
+    int damage = (hero->attack + weapon->damage )- monster->defense;
     if(damage < 1){
         damage = 1;
     }
@@ -27,10 +28,10 @@ int hero_spell(Hero* hero, Spell* spell, Monster *monster){
     return spell->atk_pow;
 }
 
-int monster_attack(Monster* monster, Hero* hero, int defending){
-    int damage = (monster->min_atk_pow + rand() % monster->max_atk_pow) - hero->defense;
+int monster_attack(Monster* monster, Hero* hero, int defending, Armor* armor){
+    int damage = (monster->min_atk_pow + rand() % monster->max_atk_pow) - (hero->defense + armor->defense);
     if (defending == 1){
-        damage /= 2;
+        damage = damage / 2;
     }
     if(damage < 0){
         damage = 0;

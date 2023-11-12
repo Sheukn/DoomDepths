@@ -39,7 +39,7 @@ int level_up(Hero* hero){
     hero->health_points += 5;
     hero->max_mana_points += 3;
     hero->mana_points += 3;
-    hero->attack += 2;
+    hero->attack += 1;
     hero->defense += 1;
     hero->xp -= hero->xp_to_up;
     hero->xp_to_up += 50;

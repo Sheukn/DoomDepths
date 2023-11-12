@@ -224,7 +224,7 @@ void drop(Inventory *inventory) {
         int randWeapon = rand() % 8;
         Weapon *weapon = malloc(sizeof(Weapon));
         strcpy(weapon->name, weaponName[randWeapon]);
-        weapon->damage = rand() % 10;
+        weapon->damage = 1 + rand() % 10;
 
         printf("You looted %s: %d\n", weapon->name, weapon->damage);
         printf("Want to equip it? (y/n)\n");
@@ -241,7 +241,7 @@ void drop(Inventory *inventory) {
         int randArmor = rand() % 4;
         Armor *armor = malloc(sizeof(Armor));
         strcpy(armor->name, armorName[randArmor]);
-        armor->defense = rand() % 10;
+        armor->defense = 1 + rand() % 10;
 
         printf("You looted %s: %d\n", armor->name, armor->defense);
         printf("Want to equip it? (y/n)\n");
@@ -256,44 +256,3 @@ void drop(Inventory *inventory) {
         }
     }
 }
-
-// int main() {
-//     Inventory *inventory = malloc(sizeof(Inventory));
-//     inventory->weaponList = NULL;
-//     inventory->armorList = NULL;
-
-//     while (1) {
-//         system("cls");
-//         printf("Show Inventory - 1\n");
-//         printf("Show Equipped - 2\n");
-//         printf("Change Weapon - 3\n");
-//         printf("Change Armor - 4\n");
-//         printf("Force Drop - 5\n");
-
-//         char input;
-//         scanf(" %c", &input);
-
-//         switch (input) {
-//             case '1':
-//                 printInventory(inventory);
-//                 while (getchar() != '\n');
-//                 break;
-//             case '2':
-//                 printEquipped(inventory);
-//                 while (getchar() != '\n');
-//                 break;
-//             case '3':
-//                 selectWeapon(inventory);
-//                 while (getchar() != '\n');
-//                 break;
-//             case '4':
-//                 selectArmor(inventory);
-//                 while (getchar() != '\n');
-//                 break;
-//             case '5':
-//                 drop(inventory);
-//                 while (getchar() != '\n');
-//                 break;
-//         }
-//     }
-// }

@@ -22,7 +22,7 @@
 
 #include "deplacement.h"
 
-void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spell_list) {
+void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spell_list, Inventory *inventory) {
     clear_console();
     int nbr_dead_monster;
     while (hero -> alive == 1 &&nbr_monster != 0) {
@@ -46,6 +46,7 @@ void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spel
                     choice = 0;
                     //ATTACK
                     while (choice == 0) {
+                        defending = 0;
                         clear_console();
                         printf("Which monster ?\n");
                         printf("Enter the letter or the number of the targeted monster.\n");
@@ -56,7 +57,7 @@ void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spel
                             case '1':
                             case 'a':
                             case 'A':
-                                printf("Monster lost %d health.\n", hero_attack(hero, monster_list[0]));
+                                printf("Monster lost %d health.\n", hero_attack(hero, monster_list[0], inventory->weaponList->weapon));
                                 action++;
                                 choice++;
                                 break;
@@ -64,7 +65,7 @@ void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spel
                             case 'b':
                             case 'B':
                                 if (nbr_monster > 1) {
-                                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[1]));
+                                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[1], inventory->weaponList->weapon));
                                     action++;
                                     choice++;
                                 } else {
@@ -75,7 +76,7 @@ void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spel
                             case 'c':
                             case 'C':
                                 if (nbr_monster > 2) {
-                                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[2]));
+                                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[2], inventory->weaponList->weapon));
                                     action++;
                                     choice++;
                                 } else {
@@ -194,7 +195,7 @@ void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spel
 
         printf("\nMONSTERS' TURN.\n\n");
         for (int k = 0; k < nbr_monster; k++) {
-            printf("Monster %c dealt %d damage to the Hero.\n", 'A' + k, monster_attack(monster_list[k], hero, defending));
+            printf("Monster %c dealt %d damage to the Hero.\n", 'A' + k, monster_attack(monster_list[k], hero, defending, inventory->armorList->armor));
         }
     }
 }
@@ -203,10 +204,18 @@ void combat(Hero * hero, int nbr_monster, Monster ** monster_list, Spell ** spel
 void launch() {
 
     Hero * hero = new_hero(1, 20, 10, 6, 1, "HERO");
-    Spell ** spell_list = new_spell_list(new_spell("Ember", 10, 8));
+    Spell ** spell_list = new_spell_list(new_spell("Ember", 15, 8));
     Inventory * inventory = malloc(sizeof(Inventory));
     inventory -> weaponList = NULL;
     inventory -> armorList = NULL;
+    Weapon* base_weapon = malloc(sizeof(Weapon));
+    Armor* base_armor = malloc(sizeof(Armor));
+    base_weapon->damage = 0;
+    strcpy(base_weapon->name, "Hands");
+    base_armor->defense = 0;
+    strcpy(base_armor->name, "Clothes");
+    addWeapon(&(inventory->weaponList), base_weapon, 1);
+    addArmor(&(inventory->armorList), base_armor, 1);
 
     // INIT MAP AND HERO POSITION
     Position position;
@@ -232,7 +241,7 @@ void launch() {
         printf("Show Equipped - 2\n");
         printf("Change Weapon - 3\n");
         printf("Change Armor - 4\n");
-        printf("Force Drop - 5\n");
+        //printf("Force Drop - 5\n");
         char input;
         scanf("%c", &input);
         switch (input) {
@@ -252,10 +261,10 @@ void launch() {
                 selectArmor(inventory);
                 while (getchar() != '\n');
                 break;
-            case '5':
+            /*case '5':
                 drop(inventory);
                 while (getchar() != '\n');
-                break;
+                break;*/
             default:
                 moveHero(map, &position, input);
                 break;
@@ -263,7 +272,7 @@ void launch() {
     
     switch (map[position.x][position.y].event) {
         case 1: {
-            printf("\nYour regenarated %d\n", health_rest(hero, 0.6));
+            printf("\nYou regenerated %d\n", health_rest(hero, 0.6));
             map[position.x][position.y].event = 0;
             char input;
             scanf("%c", &input);
@@ -274,7 +283,12 @@ void launch() {
             unsigned int nbr_monster = rand() % 3 + 1;
             unsigned int nbr_dead_monster = 0;
             Monster ** monster_list = new_monster_list(nbr_monster, hero -> level);
-            combat(hero, nbr_monster, monster_list, spell_list);
+            combat(hero, nbr_monster, monster_list, spell_list, inventory);
+            if(hero->alive == 0){
+                free_monster_list(monster_list);
+                free_hero(hero);
+                return;
+            }
             map[position.x][position.y].event = 0;
             clear_console();
             printMap(map);
@@ -296,7 +310,12 @@ void launch() {
                     unsigned int nbr_monster = rand() % 3 + 1;
                     unsigned int nbr_dead_monster = 0;
                     Monster ** monster_list = new_monster_list(nbr_monster, hero -> level);
-                    combat(hero, nbr_monster, monster_list, spell_list);
+                    combat(hero, nbr_monster, monster_list, spell_list, inventory);
+                    if(hero->alive == 0){
+                        free_monster_list(monster_list);
+                        free_hero(hero);
+                    return;
+                    }
                     map[position.x][position.y].event = 0;
                     clear_console();
                     printMap(map);
@@ -304,8 +323,8 @@ void launch() {
                     while (getchar() != '\n');
                     break;
                 }
-                case 3: {
-                    printf("Your regenarated %d\n", health_rest(hero, 0.6));
+                case 2: {
+                    printf("Your regenerated %d\n", health_rest(hero, 0.6));
                     map[position.x][position.y].event = 0;
                     char input;
                     scanf("%c", &input);
@@ -319,7 +338,12 @@ void launch() {
 
         case 4: {
             Monster ** boss_combat = new_boss_list(hero -> level);
-            combat(hero, 3, boss_combat, spell_list);
+            combat(hero, 3, boss_combat, spell_list, inventory);
+            if(hero->alive == 0){
+                free_monster_list(boss_combat);
+                free_hero(hero);
+                return;
+            }
             map[position.x][position.y].event = 0;
             clear_console();
             printMap(map);
@@ -330,7 +354,7 @@ void launch() {
         }
 
         case 5: {
-            printf("You Cleared the floor!\n");
+            printf("You cleared the floor!\n");
             map[position.x][position.y].event = 0;
             createMap(map);
             getEntry(map, &position.x, &position.y);

@@ -4,8 +4,8 @@
 #include "monster.h"
 
 void clear_console() {
-    system("clear");
-    //system("cls");
+    //system("clear");
+    system("cls");
 }
 
 void show_title() {

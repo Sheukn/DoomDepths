@@ -7,6 +7,7 @@
 #include "display.h"
 #include "sprite.h"
 #include "spell.h"
+#include "inventory.h"
 
 void launch(){
     clear_console();

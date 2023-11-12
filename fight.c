@@ -51,8 +51,8 @@ int concentrate(Hero* hero, float ratio){
     return mana_regen;
 }
 
-int health_rest(Hero* hero){
-    int health_regen = hero->max_health_points * 0.3;
+int health_rest(Hero* hero, float ratio){
+    int health_regen = hero->max_health_points * ratio;
     if((hero->health_points + health_regen)> hero->max_health_points){
         health_regen = hero->max_health_points - hero->health_points;
     }

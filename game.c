@@ -25,16 +25,57 @@ void combat(Hero *hero, int nbr_monster, Monster **monster_list, Spell **spell_l
         unsigned int action = 0;
         unsigned int already = 0;
         unsigned int defending = 0;
+        unsigned int choice = 0;
         while(action < 2){
             char input;
             scanf("%c", &input);
             switch (input) {
                 case '1':
+                    choice = 0;
                     //ATTACK
-                    clear_console();
-                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[0]));
-                    show_monsters_life(monster_list, nbr_monster);
-                    action++;
+                        while(choice == 0){
+                            clear_console();
+                            printf("Which monster ?\n");
+                            printf("Enter the letter or the number of the targeted monster.\n");
+                            show_monsters_life(monster_list, nbr_monster);
+                            char choose;
+                            scanf("%c", &choose);
+                            switch (choose){
+                            case '1':
+                            case 'a':
+                            case 'A':
+                                printf("Monster lost %d health.\n", hero_attack(hero, monster_list[0]));
+                                action++;
+                                choice++;
+                                break;
+                            case '2':
+                            case 'b':
+                            case 'B':
+                                if(nbr_monster > 1){
+                                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[1]));
+                                    action++;
+                                    choice++;
+                                }
+                                else{
+                                    printf("Monster B is not here...");
+                                }
+                                break;
+                            case '3':
+                            case 'c':
+                            case 'C':
+                            if(nbr_monster > 2){
+                                    printf("Monster lost %d health.\n", hero_attack(hero, monster_list[2]));
+                                    action++;
+                                    choice++;
+                                }
+                                else{
+                                    printf("Monster C is not here...");
+                                }
+                                break;
+                            default:
+                                break;
+                            }
+                        }
                     break;
                 case '2':
                     //SPELLS
@@ -42,9 +83,50 @@ void combat(Hero *hero, int nbr_monster, Monster **monster_list, Spell **spell_l
                         printf("I need more mana...\n");
                         break;
                     }
-                    clear_console();
-                    printf("Monster lost %d health from a spell.\n", hero_spell(hero, spell_list[0], monster_list[0]));
-                    action++;
+                    choice = 0;
+                    while(choice == 0){
+                            clear_console();
+                            printf("Which monster ?\n");
+                            printf("Enter the letter or the number of the targeted monster.\n");
+                            show_monsters_life(monster_list, nbr_monster);
+                            char choose;
+                            scanf("%c", &choose);
+                            switch (choose){
+                            case '1':
+                            case 'a':
+                            case 'A':
+                                printf("Monster lost %d health from a spell.\n", hero_spell(hero, spell_list[0], monster_list[0]));
+                                action++;
+                                choice++;
+                                break;
+                            case '2':
+                            case 'b':
+                            case 'B':
+                                if(nbr_monster > 1){
+                                    printf("Monster lost %d health from a spell.\n", hero_spell(hero, spell_list[0], monster_list[1]));
+                                    action++;
+                                    choice++;
+                                }
+                                else{
+                                    printf("Monster B is not here...");
+                                }
+                                break;
+                            case '3':
+                            case 'c':
+                            case 'C':
+                            if(nbr_monster > 2){
+                                    printf("Monster lost %d health from a spell.\n", hero_spell(hero, spell_list[0], monster_list[2]));
+                                    action++;
+                                    choice++;
+                                }
+                                else{
+                                    printf("Monster C is not here...");
+                                }
+                                break;
+                            default:
+                                break;
+                            }
+                        }
                     break;
                 case '3':
                     //CONCENTRATE
@@ -187,8 +269,9 @@ void launch(){
         }
 
         case 4:{
-            // Monster *monster = new_monster(hero->level, 4);
-            // combatBoss(hero, 1, &monster, spell_list);
+            Monster **boss_combat = new_boss_list(hero->level);
+            combat(hero, 3, boss_combat, spell_list);
+            map[position.x][position.y].event = 0;
             break;
         }
 

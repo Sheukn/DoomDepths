@@ -45,9 +45,9 @@ Monster *new_monster(int level, int type) {
 
     case 4 :
     {
-        monster->health_points = 50 + (level - 1) * 25;
-        monster->min_atk_pow = 10 + (level - 1) * 2;
-        monster->max_atk_pow = 20 + (level - 1) * 5;
+        monster->health_points = 30 + (level - 1) * 10;
+        monster->min_atk_pow = 6 + (level - 1) * 2;
+        monster->max_atk_pow = 12 + (level - 1) * 4;
         monster->defense = 6 + level - 1;
         monster->alive = 1;
         monster->xp = 200;
@@ -66,6 +66,14 @@ Monster **new_monster_list(int nbr_monster, int level){
     for(int k = 0; k < nbr_monster; k++){
         monster_list[k] = new_monster(level, k+1);
     }
+    return monster_list;
+}
+
+Monster **new_boss_list(int level){
+    Monster **monster_list = calloc(3, sizeof(Monster));
+        monster_list[0] = new_monster(level, 3);
+        monster_list[1] = new_monster(level, 4);
+        monster_list[2] = new_monster(level, 3);
     return monster_list;
 }
 

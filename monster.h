@@ -15,6 +15,7 @@ typedef struct {
 
 Monster *new_monster(int level, int type);
 Monster **new_monster_list(int nbr_monster, int level);
+Monster **new_boss_list(int level);
 int check_monster_list(Monster **monster_list, int nbr_monster);
 Monster **rearrange_monster_list(Monster **monster_list, int nbr_monster_to_keep);
 

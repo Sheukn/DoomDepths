@@ -28,7 +28,7 @@ int hero_spell(Hero* hero, Spell* spell, Monster *monster){
 }
 
 int monster_attack(Monster* monster, Hero* hero, int defending){
-    int damage = (monster->max_atk_pow + monster->min_atk_pow) / 2 - hero->defense;
+    int damage = (monster->min_atk_pow + rand() % monster->max_atk_pow) - hero->defense;
     if (defending == 1){
         damage /= 2;
     }

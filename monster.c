@@ -1,7 +1,20 @@
 #include <stdlib.h>
+#include "random.h"
 #include <stdio.h>
 #include "sprite.h"
 #include "monster.h"
+
+Monster *new_monster_full(int hp, int power_min, int power_max, int def, int alive, int xp, char *sprite_id) {
+    Monster *monster = calloc(1, sizeof(Monster));
+    monster->health_points = hp;
+    monster->min_atk_pow = power_min;
+    monster->max_atk_pow = power_max;
+    monster->defense = def;
+    monster->alive = alive;
+    monster->xp = xp;
+    monster->sprite = new_sprite(sprite_id);
+    return monster;
+}
 
 Monster *new_monster(int level, int type) {
     Monster *monster = calloc(1, sizeof(Monster));
@@ -61,6 +74,16 @@ Monster *new_monster(int level, int type) {
     return monster;
 }
 
+Monster *new_random_monster() {
+    Monster *random_monster = calloc(1, sizeof(Monster));
+    random_monster->health_points = random_range(10, 50);
+    random_monster->min_atk_pow = random_range(2, 6);
+    random_monster->max_atk_pow = random_range(8, 20);
+    random_monster->defense = random_range(5, 20);
+    random_monster->sprite = new_sprite("01");
+    return random_monster;
+}
+
 Monster **new_monster_list(int nbr_monster, int level){
     Monster **monster_list = calloc(nbr_monster, sizeof(Monster));
     for(int k = 0; k < nbr_monster; k++){
@@ -109,4 +132,27 @@ void free_monster(Monster *monster) {
 }
 void free_monster_list(Monster **monster_list){
     free(monster_list);
+}
+
+Monster_Array *new_monster_array(int size) {
+    Monster_Array *monsterArray = calloc(1, sizeof(Monster_Array));
+    monsterArray->size = size;
+    monsterArray->monster_array = calloc(size, sizeof(Monster));
+    return monsterArray;
+}
+
+void free_monster_array(Monster_Array *monsterArray) {
+    for (int i = 0; i < monsterArray->size; i++) {
+        free_monster(monsterArray->monster_array[i]);
+    }
+    free(monsterArray->monster_array);
+    free(monsterArray);
+}
+
+Monster_Array *random_monster_array(int size) {
+    Monster_Array *randomMonsterArray = new_monster_array(size);
+    for (int i = 0; i < randomMonsterArray->size; i++) {
+        randomMonsterArray->monster_array[i] = new_random_monster();
+    }
+    return randomMonsterArray;
 }

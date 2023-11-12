@@ -18,6 +18,8 @@
 
 #include "inventory.h"
 
+#include "save.h"
+
 #include "map.h"
 
 #include "deplacement.h"
@@ -231,8 +233,17 @@ void launch() {
     createMap(map);
     getEntry(map, &position.x, &position.y);
 
+    char saveInput;
+    printf("\nLoad past save (y/N)\n");
+    scanf("%c", &saveInput);
+    scanf("%c", &saveInput);
+    if (saveInput == 'y') {
+        load(hero, inventory);
+    }
+
     while (hero -> alive == 1) {
         clear_console();
+        save(hero, inventory);
         printMap(map);
         printf("\nHERO LVL %d\n", hero -> level);
         printf("HP : %d/%d\n", hero -> health_points, hero -> max_health_points);

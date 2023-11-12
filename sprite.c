@@ -14,7 +14,7 @@ int get_nbRows(FILE *f) {
         }
         c = fgetc(f);
     }
-    fseek(f,cursorPos,SEEK_SET);
+    fseek(f, cursorPos, SEEK_SET);
     return nbRows;
 }
 
@@ -26,7 +26,7 @@ int get_nbChars(FILE *f) {
         nbChars++;
         c = fgetc(f);
     }
-    fseek(f,cursorPos,SEEK_SET);
+    fseek(f, cursorPos, SEEK_SET);
     return nbChars;
 }
 
@@ -57,6 +57,9 @@ void set_sprite(Sprite *sprite, const char *sprite_id) {
 
 Sprite *new_sprite(const char *sprite_id) {
     Sprite *sprite = calloc(1, sizeof(Sprite));
+    sprite->sprite_id = calloc(2, sizeof(char));
+    sprite->sprite_id[0] = sprite_id[0];
+    sprite->sprite_id[1] = sprite_id[1];
     set_sprite(sprite, sprite_id);
     return sprite;
 }
@@ -69,7 +72,7 @@ void free_sprite(Sprite *sprite) {
     free(sprite);
 }
 
-void show_sprite(const Sprite *sprite,unsigned int offset) {
+void show_sprite(const Sprite *sprite, unsigned int offset) {
     for (int i = 0; i < sprite->y_size; i++) {
         for (int j = 0; j < offset; j++) {
             printf(" ");

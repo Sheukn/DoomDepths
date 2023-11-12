@@ -4,6 +4,7 @@
 #define DOOMDEPTHSC_SPRITE_H
 
 typedef struct {
+    char *sprite_id;
     char **sprite;
     int y_size;
 } Sprite;

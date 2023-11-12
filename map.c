@@ -14,13 +14,13 @@ void createMap(Cell** map) {
     switch (mapNumber)
     {
     case 0:
-        mapFile = fopen("map_1.txt", "r");
+        mapFile = fopen("../map_1.txt", "r");
         break;
     case 1:
-        mapFile = fopen("map_2.txt", "r");
+        mapFile = fopen("../map_2.txt", "r");
         break;
     case 2:
-        mapFile = fopen("map_3.txt", "r");
+        mapFile = fopen("../map_3.txt", "r");
         break;
     default:
         break;

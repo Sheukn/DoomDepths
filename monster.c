@@ -42,6 +42,18 @@ Monster *new_monster(int level, int type) {
         monster->sprite = new_sprite("GOBLIN");
         break;
     }
+
+    case 4 :
+    {
+        monster->health_points = 50 + (level - 1) * 25;
+        monster->min_atk_pow = 10 + (level - 1) * 2;
+        monster->max_atk_pow = 20 + (level - 1) * 5;
+        monster->defense = 6 + level - 1;
+        monster->alive = 1;
+        monster->xp = 200;
+        monster->sprite = new_sprite("BOSS");
+        break;
+    }
     default:
         break;
     }

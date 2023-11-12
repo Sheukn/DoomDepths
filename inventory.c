@@ -79,6 +79,51 @@ int getArmorListSize(Inventory *inventory) {
     return i;
 }
 
+
+void addWeapon(Inventory *inventory, Weapon *weapon, int equip){
+    WeaponList *weaponList = inventory->weaponList;
+    if (weaponList == NULL) {
+        weaponList = malloc(sizeof(weaponList));
+        weaponList->weapon = weapon;
+        weaponList->next = NULL;
+        inventory->weaponList = weaponList;
+        return;
+    }
+    if(equip){
+        weaponList->weapon = weapon;
+        return;
+    }
+    while (weaponList->next != NULL) {
+        weaponList = weaponList->next;
+    }
+    WeaponList *newWeapon = malloc(sizeof(weaponList));
+    newWeapon->weapon = weapon;
+    newWeapon->next = NULL;
+    weaponList->next = newWeapon;
+}
+
+void addArmor(Inventory *inventory, Armor *armor, int equip) {
+    ArmorList *armorList = inventory->armorList;
+    if (armorList == NULL) {
+        armorList = malloc(sizeof(armorList));
+        armorList->armor = armor;
+        armorList->next = NULL;
+        inventory->armorList = armorList;
+        return;
+    }
+    if(equip){
+        armorList->armor = armor;
+        return;
+    }
+    while (armorList->next != NULL) {
+        armorList = armorList->next;
+    }
+    ArmorList *newArmor = malloc(sizeof(armorList));
+    newArmor->armor = armor;
+    newArmor->next = NULL;
+    armorList->next = newArmor;    
+}
+
 void selectWeapon(Inventory *inventory) {
     WeaponList *weaponList = inventory->weaponList;
     printWeaponList(inventory);
@@ -125,7 +170,7 @@ void selectArmor(Inventory *inventory) {
     printEquipped(inventory);
 }
 
-void drop(Inventory inventory){
+void drop(Inventory *inventory){
     char *weaponName[] = {"Sword", "Axe", "Bow", "Dagger", "Mace", "Spear", "Staff", "Wand"};
     char *armorName[] = {"Helmet", "Chestplate", "Leggings", "Boots"};
     int type = rand() % 2;
